@@ -2,7 +2,7 @@
 
 Reusable SEO metadata forms, editorial status, metadata quality scoring, and infolist components for Laravel and Filament.
 
-![Filament SEO package thumbnail showing the News resource and native SEO form tabs](art/filament-seo-thumbnail.png)
+<img class="filament-hidden" src="https://raw.githubusercontent.com/Digit7s/filament-seo/main/art/filament-seo-thumbnail.png" alt="Filament SEO package thumbnail showing the News resource and native SEO form tabs" width="100%">
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/digit7s/filament-seo.svg?style=flat-square)](https://packagist.org/packages/digit7s/filament-seo)
 [![Total Downloads](https://img.shields.io/packagist/dt/digit7s/filament-seo.svg?style=flat-square)](https://packagist.org/packages/digit7s/filament-seo)
