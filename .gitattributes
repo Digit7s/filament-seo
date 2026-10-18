@@ -4,6 +4,7 @@
 /.gitignore export-ignore
 /.github export-ignore
 /.phpunit.cache export-ignore
+/vendor export-ignore
 /composer.lock export-ignore
 /docs/audits export-ignore
 /docs/PHASE_* export-ignore
