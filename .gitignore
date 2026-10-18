@@ -1,0 +1,10 @@
+/vendor/
+/.phpunit.cache/
+/.DS_Store
+**/.DS_Store
+/docs/audits/
+/docs/PHASE_*
+/tests/Fixtures/app/config/
+/tests/Fixtures/app/database/
+/tests/Fixtures/app/bootstrap/cache/*.php
+/tests/Fixtures/app/storage/

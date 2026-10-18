@@ -1,0 +1,12 @@
+/.DS_Store export-ignore
+**/.DS_Store export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.github export-ignore
+/.phpunit.cache export-ignore
+/composer.lock export-ignore
+/docs/audits export-ignore
+/docs/PHASE_* export-ignore
+/pint.json export-ignore
+/phpunit.xml export-ignore
+/tests export-ignore

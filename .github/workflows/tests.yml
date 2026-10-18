@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.4', '8.5']
+        dependency: ['lowest', 'highest']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo_sqlite, sqlite3
+          coverage: none
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-php-${{ matrix.php }}-${{ matrix.dependency }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-php-${{ matrix.php }}-${{ matrix.dependency }}-
+
+      - run: composer validate --strict --no-check-publish
+      - run: composer install --prefer-dist --no-interaction
+        if: matrix.dependency == 'highest'
+      - run: composer update --prefer-lowest --prefer-stable --no-interaction
+        if: matrix.dependency == 'lowest'
+      - run: composer dump-autoload --optimize --strict-psr
+      - run: composer test
+      - run: composer lint
