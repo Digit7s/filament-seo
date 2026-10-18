@@ -2,9 +2,14 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "digit7s/filament-seo",
     "description": "Polymorphic SEO metadata rendering and Filament components for Laravel.",
+    "homepage": "https://github.com/Digit7s/filament-seo",
     "keywords": ["laravel", "filament", "seo", "metadata"],
     "license": "MIT",
     "type": "library",
+    "support": {
+        "issues": "https://github.com/Digit7s/filament-seo/issues",
+        "source": "https://github.com/Digit7s/filament-seo"
+    },
     "require": {
         "php": "^8.4",
         "filament/filament": "^5.0",
