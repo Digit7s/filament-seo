@@ -22,6 +22,7 @@ it('matches the Innwa metadata model contract and fields', function () {
         'seo_image', 'seo_image_alt', 'og_title', 'og_description',
         'og_image', 'og_image_alt', 'twitter_title', 'twitter_description',
         'twitter_image', 'twitter_image_alt', 'robots_index', 'robots_follow',
+        'structured_data_enabled', 'structured_data_type', 'structured_data',
     ];
 
     expect($metadata->getTable())->toBe('seo_metadata')
@@ -33,6 +34,8 @@ it('matches the Innwa metadata model contract and fields', function () {
         ->and($metadata->getCasts())->toMatchArray([
             'robots_index' => 'boolean',
             'robots_follow' => 'boolean',
+            'structured_data_enabled' => 'boolean',
+            'structured_data' => 'array',
         ])
         ->and($metadata->seoable())->toBeInstanceOf(MorphTo::class);
 });
@@ -105,6 +108,7 @@ it('publishes the expected schema including morph and unique indexes', function 
         'og_description', 'og_image', 'og_image_alt', 'twitter_title',
         'twitter_description', 'twitter_image', 'twitter_image_alt',
         'robots_index', 'robots_follow', 'created_at', 'updated_at',
+        'structured_data_enabled', 'structured_data_type', 'structured_data',
     ])
         ->and($columns['meta_title']['nullable'])->toBeTrue()
         ->and($columns['meta_description']['nullable'])->toBeTrue()
@@ -113,6 +117,9 @@ it('publishes the expected schema including morph and unique indexes', function 
         ->and($columns['keywords']['type'])->toBe('text')
         ->and($columns['robots_index']['nullable'])->toBeFalse()
         ->and($columns['robots_follow']['nullable'])->toBeFalse()
+        ->and($columns['structured_data_enabled']['nullable'])->toBeFalse()
+        ->and($columns['structured_data_type']['nullable'])->toBeTrue()
+        ->and($columns['structured_data']['nullable'])->toBeTrue()
         ->and($defaultIsTrue($columns['robots_index']['default']))->toBeTrue()
         ->and($defaultIsTrue($columns['robots_follow']['default']))->toBeTrue()
         ->and($indexes->values()->contains(fn (array $index): bool => $index['columns'] === ['seoable_type', 'seoable_id'] && $index['unique']))->toBeTrue()
@@ -120,4 +127,5 @@ it('publishes the expected schema including morph and unique indexes', function 
         ->and($migrationSource)->toContain("\$table->string('meta_title')->nullable();")
         ->and($migrationSource)->toContain("\$table->string('canonical_url')->nullable();")
         ->and($migrationSource)->toContain("\$table->string('twitter_image_alt')->nullable();");
+
 });

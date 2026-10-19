@@ -8,6 +8,7 @@ return [
         'basic' => 'Basic SEO',
         'social' => 'Social metadata',
         'robots' => 'Robots directives',
+        'structured_data' => 'Structured Data',
         'seo_score' => 'SEO score',
     ],
     'fields' => [
@@ -27,6 +28,8 @@ return [
         'twitter_image_alt' => 'Twitter/X image alt text',
         'robots_index' => 'Allow indexing',
         'robots_follow' => 'Allow following links',
+        'structured_data_enabled' => 'Enable JSON-LD structured data',
+        'structured_data_type' => 'Schema.org type',
         'resolved_title' => 'Effective title',
         'resolved_description' => 'Effective description',
         'resolved_canonical_url' => 'Effective canonical URL',

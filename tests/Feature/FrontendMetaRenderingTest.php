@@ -3,6 +3,7 @@
 use Digit7s\FilamentSeo\Tests\Fixtures\Models\Article;
 use Digit7s\FilamentSeo\Tests\Support\CreatesSeoSchema;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 uses(CreatesSeoSchema::class);
@@ -141,4 +142,21 @@ it('does not emit HTTP URLs unless image policy explicitly permits them and neve
     config()->set('filament-seo.images.allow_http', true);
 
     expect(renderMeta($article))->toContain('http://cdn.example.test/image.jpg');
+});
+
+it('does not query the static page registry when rendering a loaded model record', function (): void {
+    $article = Article::query()->create(['name' => 'Loaded article']);
+    $article->seoMetadata()->create(['meta_title' => 'Loaded article title']);
+    $article = $article->fresh()->load('seoMetadata');
+
+    DB::flushQueryLog();
+    DB::enableQueryLog();
+
+    $html = renderMeta($article);
+    $queries = DB::getQueryLog();
+
+    DB::disableQueryLog();
+
+    expect($html)->toContain('<title>Loaded article title</title>')
+        ->and($queries)->toBeEmpty();
 });

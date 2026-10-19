@@ -27,6 +27,8 @@ final class SeoFormHarness extends Component implements HasSchemas
 
     public bool $tabbed = false;
 
+    public bool $withStructuredData = false;
+
     public bool $requireSocialTitle = false;
 
     public function mount(?int $recordId = null): void
@@ -42,7 +44,9 @@ final class SeoFormHarness extends Component implements HasSchemas
             ->components([SeoFields::make(
                 disabled: fn (self $livewire): bool => ! $livewire->editorEnabled,
                 visible: fn (self $livewire): bool => $livewire->editorVisible,
-                groups: ['basic', 'social', 'robots'],
+                groups: $this->withStructuredData
+                    ? ['basic', 'social', 'robots', 'structured_data']
+                    : ['basic', 'social', 'robots'],
                 required: $this->requireSocialTitle ? ['og_title' => true] : [],
                 tabbed: $this->tabbed,
             )])

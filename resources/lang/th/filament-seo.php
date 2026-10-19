@@ -8,6 +8,7 @@ return [
         'basic' => 'SEO พื้นฐาน',
         'social' => 'ข้อมูลเมตาสำหรับโซเชียล',
         'robots' => 'คำสั่ง Robots',
+        'structured_data' => 'Structured Data',
         'seo_score' => 'คะแนนคุณภาพ SEO',
     ],
     'fields' => [
@@ -27,6 +28,8 @@ return [
         'twitter_image_alt' => 'ข้อความทดแทนรูปภาพ Twitter/X',
         'robots_index' => 'อนุญาตให้จัดทำดัชนี',
         'robots_follow' => 'อนุญาตให้ติดตามลิงก์',
+        'structured_data_enabled' => 'เปิดใช้ Structured Data แบบ JSON-LD',
+        'structured_data_type' => 'ประเภท Schema.org',
         'resolved_title' => 'ชื่อที่มีผลใช้งาน',
         'resolved_description' => 'คำอธิบายที่มีผลใช้งาน',
         'resolved_canonical_url' => 'Canonical URL ที่มีผลใช้งาน',

@@ -2,6 +2,7 @@
 
 namespace Digit7s\FilamentSeo;
 
+use Digit7s\FilamentSeo\Sitemap\SitemapRouteRegistrar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +19,10 @@ class FilamentSeoServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-seo');
         Blade::componentNamespace('Digit7s\\FilamentSeo\\View\\Components', 'filament-seo');
 
+        if (config('filament-seo.sitemap.enabled', false)) {
+            SitemapRouteRegistrar::register();
+        }
+
         if (! $this->app->runningInConsole()) {
             return;
         }
@@ -31,9 +36,13 @@ class FilamentSeoServiceProvider extends ServiceProvider
         ], 'filament-seo-translations');
 
         $migration = __DIR__.'/../database/migrations/2026_10_14_000000_create_seo_metadata_table.php';
+        $pagesMigration = __DIR__.'/../database/migrations/2026_10_19_000000_create_seo_pages_table.php';
+        $structuredDataMigration = __DIR__.'/../database/migrations/2026_10_19_100000_add_structured_data_to_seo_metadata_table.php';
 
         $this->publishesMigrations([
             $migration => database_path('migrations/2026_10_14_000000_create_seo_metadata_table.php'),
+            $pagesMigration => database_path('migrations/2026_10_19_000000_create_seo_pages_table.php'),
+            $structuredDataMigration => database_path('migrations/2026_10_19_100000_add_structured_data_to_seo_metadata_table.php'),
         ], 'filament-seo-migrations');
     }
 }

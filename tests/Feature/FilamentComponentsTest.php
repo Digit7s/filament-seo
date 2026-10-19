@@ -71,6 +71,25 @@ it('offers native tabbed groups without changing the existing section API', func
         ), $items))->toBe([['meta_title'], ['og_title'], ['robots_index']]);
 });
 
+it('keeps structured data opt-in for generic SEO forms and adds schema-aware fields when selected', function (): void {
+    $default = SeoFields::make();
+    $defaultGroups = $default->getDefaultChildComponents();
+
+    $section = SeoFields::make(groups: ['structured_data'], tabbed: true);
+    $tab = $section->getDefaultChildComponents()[0]->getDefaultChildComponents()[0];
+    $structuredSection = $tab->getDefaultChildComponents()[0];
+    $structuredFields = $structuredSection->getDefaultChildComponents();
+
+    $selectedSection = SeoFields::make(groups: ['structured_data'], fields: ['structured_data_type'], tabbed: true);
+    $selectedTab = $selectedSection->getDefaultChildComponents()[0]->getDefaultChildComponents()[0];
+    $selectedFields = $selectedTab->getDefaultChildComponents()[0]->getDefaultChildComponents();
+
+    expect($defaultGroups)->toHaveCount(3)
+        ->and($structuredSection)->toBeInstanceOf(Section::class)
+        ->and(array_map(fn ($field): ?string => $field->getName(), $structuredFields))->toContain('structured_data_type', 'structured_data.headline', 'structured_data.itemListElement', 'json_ld_preview')
+        ->and(array_map(fn ($field): ?string => $field->getName(), $selectedFields))->toBe(['structured_data_type']);
+});
+
 it('preserves unsaved values across tab groups and exposes inactive tab validation errors', function (): void {
     $owner = Article::query()->create(['name' => 'Tabbed article']);
 

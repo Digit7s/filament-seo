@@ -6,8 +6,10 @@ namespace Digit7s\FilamentSeo\Filament\Infolists;
 
 use Digit7s\FilamentSeo\Data\ResolvedSeoMetadata;
 use Digit7s\FilamentSeo\Data\SeoCompleteness;
+use Digit7s\FilamentSeo\Data\SeoScoreResult;
 use Digit7s\FilamentSeo\Support\SeoCompletenessAnalyzer;
 use Digit7s\FilamentSeo\Support\SeoMetadataResolver;
+use Digit7s\FilamentSeo\Support\SeoScoreCalculator;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
@@ -33,6 +35,7 @@ final class SeoMetadataInfolistSection
         array $groups = ['basic', 'social', 'robots'],
         bool $showResolvedValues = true,
         bool $showCompleteness = true,
+        bool $showScore = false,
         bool $imagePreview = false,
     ): Section {
         foreach ($groups as $group) {
@@ -90,6 +93,15 @@ final class SeoMetadataInfolistSection
 
                     return __('filament-seo::filament-seo.statuses.'.$result->status);
                 });
+        }
+
+        if ($showScore) {
+            $entries[] = TextEntry::make('seo_score')
+                ->label(fn (): string => __('filament-seo::filament-seo.groups.seo_score'))
+                ->badge()
+                ->state(fn (Model $record): string => self::score($record, $relationship)->label())
+                ->color(fn (Model $record): string => self::score($record, $relationship)->color())
+                ->tooltip(fn (Model $record): string => self::score($record, $relationship)->summary());
         }
 
         return Section::make(fn (): string => __('filament-seo::filament-seo.groups.seo'))->schema($entries);
@@ -192,5 +204,15 @@ final class SeoMetadataInfolistSection
             resolved: $resolved,
             relationshipLoaded: $loaded,
         );
+    }
+
+    private static function score(Model $owner, string $relationship): SeoScoreResult
+    {
+        $loaded = $owner->relationLoaded($relationship);
+        $metadata = $loaded ? $owner->getRelation($relationship) : null;
+        $metadata = $metadata instanceof Model ? $metadata : null;
+        $resolved = app(SeoMetadataResolver::class)->resolve($owner, $metadata);
+
+        return app(SeoScoreCalculator::class)->calculate($metadata, $resolved);
     }
 }

@@ -52,7 +52,7 @@ abstract class TestCase extends OrchestraTestCase
     protected function tearDown(): void
     {
         if ((getenv('FILAMENT_SEO_TEST_DB') ?: 'sqlite') === 'pgsql' && $this->app) {
-            foreach (['seo_metadata', 'news_categories', 'articles'] as $table) {
+            foreach (['seo_metadata', 'seo_pages', 'news_categories', 'articles', 'sitemap_articles'] as $table) {
                 Schema::dropIfExists($table);
             }
         }

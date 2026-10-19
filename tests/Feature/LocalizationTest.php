@@ -32,6 +32,7 @@ it('registers all supported package translation catalogs with matching keys', fu
 
     foreach (['en', 'my', 'th'] as $locale) {
         expect(Lang::has('filament-seo::filament-seo.groups.basic', $locale))->toBeTrue()
+            ->and(Lang::has('filament-seo::filament-seo.groups.structured_data', $locale))->toBeTrue()
             ->and(Lang::has('filament-seo::filament-seo.messages.seo_score.no_findings', $locale))->toBeTrue();
     }
 });

@@ -8,6 +8,7 @@ return [
         'basic' => 'အခြေခံ SEO',
         'social' => 'လူမှုကွန်ရက် မီတာဒေတာ',
         'robots' => 'Robots ညွှန်ကြားချက်များ',
+        'structured_data' => 'ဖွဲ့စည်းထားသော ဒေတာ',
         'seo_score' => 'SEO အရည်အသွေးရမှတ်',
     ],
     'fields' => [
@@ -27,6 +28,8 @@ return [
         'twitter_image_alt' => 'Twitter/X ပုံ အစားထိုးစာသား',
         'robots_index' => 'ရှာဖွေရေးအင်ဂျင်တွင် ထည့်သွင်းခွင့်ပြုရန်',
         'robots_follow' => 'လင့်ခ်များကို လိုက်ကြည့်ခွင့်ပြုရန်',
+        'structured_data_enabled' => 'JSON-LD ဖွဲ့စည်းထားသော ဒေတာ ဖွင့်ရန်',
+        'structured_data_type' => 'Schema.org အမျိုးအစား',
         'resolved_title' => 'အသုံးပြုမည့် ခေါင်းစဉ်',
         'resolved_description' => 'အသုံးပြုမည့် ဖော်ပြချက်',
         'resolved_canonical_url' => 'အသုံးပြုမည့် Canonical URL',

@@ -20,7 +20,8 @@ it('merges package defaults without running or loading its migration', function 
     expect(config('filament-seo.model'))->toBe(SeoMetadata::class)
         ->and(config('filament-seo.relationship'))->toBe('seoMetadata')
         ->and(config('filament-seo.images.visibility'))->toBe('private')
-        ->and(Schema::hasTable('seo_metadata'))->toBeFalse();
+        ->and(Schema::hasTable('seo_metadata'))->toBeFalse()
+        ->and(Schema::hasTable('seo_pages'))->toBeFalse();
 });
 
 it('publishes the package config and migration only when explicitly requested', function () {
@@ -35,10 +36,13 @@ it('publishes the package config and migration only when explicitly requested', 
     $this->artisan('vendor:publish', ['--tag' => 'filament-seo-migrations', '--force' => true])
         ->assertExitCode(0);
 
-    $publishedMigrations = glob($this->app->databasePath('migrations/*_create_seo_metadata_table.php')) ?: [];
+    $publishedMigrations = glob($this->app->databasePath('migrations/*_create_*_table.php')) ?: [];
+    $publishedPagesMigration = glob($this->app->databasePath('migrations/*_create_seo_pages_table.php')) ?: [];
 
-    expect($publishedMigrations)->toHaveCount(1)
-        ->and(Schema::hasTable('seo_metadata'))->toBeFalse();
+    expect($publishedMigrations)->toHaveCount(2)
+        ->and($publishedPagesMigration)->toHaveCount(1)
+        ->and(Schema::hasTable('seo_metadata'))->toBeFalse()
+        ->and(Schema::hasTable('seo_pages'))->toBeFalse();
 });
 
 it('leaves an existing compatible table and stored records unchanged when the provider boots', function () {
